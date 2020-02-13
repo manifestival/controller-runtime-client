@@ -21,8 +21,7 @@ type controllerRuntimeClient struct {
 var _ mf.Client = (*controllerRuntimeClient)(nil)
 
 func (c *controllerRuntimeClient) Create(obj *unstructured.Unstructured, options *metav1.CreateOptions) error {
-	// TODO: DeepCopy in the caller instead
-	return c.client.Create(context.TODO(), obj.DeepCopy(), createWith(options)...)
+	return c.client.Create(context.TODO(), obj, createWith(options)...)
 }
 
 func (c *controllerRuntimeClient) Update(obj *unstructured.Unstructured, options *metav1.UpdateOptions) error {
