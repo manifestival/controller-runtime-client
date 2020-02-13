@@ -9,6 +9,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
+func NewManifest(pathname string, client client.Client, opts ...mf.Option) (mf.Manifest, error) {
+	return mf.NewManifest(pathname, append(opts, mf.UseClient(NewClient(client)))...)
+}
+
 func NewClient(client client.Client) mf.Client {
 	return &controllerRuntimeClient{client: client}
 }

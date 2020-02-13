@@ -79,14 +79,14 @@
 
 [[projects]]
   branch = "consolidated"
-  digest = "1:0c19e55025ed612efa583a943fca402bd5aa36047aa01ca626dfcda6ba1544b0"
+  digest = "1:3442f19bbccfce38d5548213d84b801d8b23072a700557bf4103cc38a4553bbe"
   name = "github.com/manifestival/manifestival"
   packages = [
     ".",
     "patch",
   ]
   pruneopts = "UT"
-  revision = "df07d6d9e6744025e7f3aeada99114f8530bc1d0"
+  revision = "c0c226b522070286c9233f64146e5f4e4e346ff5"
 
 [[projects]]
   digest = "1:33422d238f147d247752996a26574ac48dcf472976eda7f5134015f06bf16563"
