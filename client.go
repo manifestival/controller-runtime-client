@@ -4,6 +4,7 @@ import (
 	"context"
 
 	mf "github.com/manifestival/manifestival"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -25,18 +26,20 @@ type controllerRuntimeClient struct {
 var _ mf.Client = (*controllerRuntimeClient)(nil)
 
 func (c *controllerRuntimeClient) Create(obj *unstructured.Unstructured, options ...mf.ApplyOption) error {
-	return c.client.Create(context.TODO(), obj, createWith(options)...)
+	return c.client.Create(context.TODO(), obj)
 }
 
 func (c *controllerRuntimeClient) Update(obj *unstructured.Unstructured, options ...mf.ApplyOption) error {
-	return c.client.Update(context.TODO(), obj, updateWith(options)...)
+	return c.client.Update(context.TODO(), obj)
 }
 
 func (c *controllerRuntimeClient) Delete(obj *unstructured.Unstructured, options ...mf.DeleteOption) error {
 	err := c.client.Delete(context.TODO(), obj, deleteWith(options)...)
-	opts := mf.DeleteWith(options)
-	if opts.IgnoreNotFound {
-		return client.IgnoreNotFound(err)
+	if apierrors.IsNotFound(err) {
+		opts := mf.DeleteWith(options)
+		if opts.IgnoreNotFound {
+			return nil
+		}
 	}
 	return err
 }
@@ -49,44 +52,15 @@ func (c *controllerRuntimeClient) Get(obj *unstructured.Unstructured) (*unstruct
 	return result, err
 }
 
-func createWith(opts []mf.ApplyOption) []client.CreateOption {
-	result := []client.CreateOption{}
+func deleteWith(opts []mf.DeleteOption) []client.DeleteOptionFunc {
+	result := []client.DeleteOptionFunc{}
 	for _, opt := range opts {
-		if opt == mf.DryRunAll {
-			result = append(result, client.DryRunAll)
-		}
-		if t, ok := opt.(mf.FieldManager); ok {
-			result = append(result, client.FieldOwner(string(t)))
-		}
-	}
-	return result
-}
-
-func updateWith(opts []mf.ApplyOption) []client.UpdateOption {
-	result := []client.UpdateOption{}
-	for _, opt := range opts {
-		if opt == mf.DryRunAll {
-			result = append(result, client.DryRunAll)
-		}
-		if t, ok := opt.(mf.FieldManager); ok {
-			result = append(result, client.FieldOwner(string(t)))
-		}
-	}
-	return result
-}
-
-func deleteWith(opts []mf.DeleteOption) []client.DeleteOption {
-	result := []client.DeleteOption{}
-	for _, opt := range opts {
-		if opt == mf.DryRunAll {
-			result = append(result, client.DryRunAll)
-			continue
-		}
 		switch v := opt.(type) {
 		case mf.GracePeriodSeconds:
 			result = append(result, client.GracePeriodSeconds(int64(v)))
 		case mf.Preconditions:
-			result = append(result, client.Preconditions(metav1.Preconditions(v)))
+			p := metav1.Preconditions(v)
+			result = append(result, client.Preconditions(&p))
 		case mf.PropagationPolicy:
 			result = append(result, client.PropagationPolicy(metav1.DeletionPropagation(v)))
 		}

@@ -27,15 +27,15 @@
 
 [[constraint]]
   name = "github.com/manifestival/manifestival"
-  branch = "master"
+  branch = "issue-17"
 
 [[constraint]]
   name = "k8s.io/apimachinery"
-  version = "kubernetes-1.15.4"
+  version = "kubernetes-1.13.4"
 
 [[constraint]]
   name = "sigs.k8s.io/controller-runtime"
-  version = "0.3.0"
+  version = "v0.1.12"
 
 [prune]
   go-tests = true
