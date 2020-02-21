@@ -101,7 +101,7 @@
   version = "v1.1.9"
 
 [[projects]]
-  branch = "issue-17"
+  branch = "master"
   digest = "1:92a636aeada7a72e468d7661c33d603e920a5db4cf5a2bdc9e441b40d96092d4"
   name = "github.com/manifestival/manifestival"
   packages = [
@@ -110,7 +110,7 @@
     "sources",
   ]
   pruneopts = "UT"
-  revision = "941c0da9dabdd8291c6e06506e0d581125e026d0"
+  revision = "2e7a04ddc857cd9a607478259e6e2baef1543ab9"
 
 [[projects]]
   digest = "1:33422d238f147d247752996a26574ac48dcf472976eda7f5134015f06bf16563"
@@ -418,6 +418,7 @@
   analyzer-version = 1
   input-imports = [
     "github.com/manifestival/manifestival",
+    "k8s.io/apimachinery/pkg/api/errors",
     "k8s.io/apimachinery/pkg/apis/meta/v1",
     "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured",
     "k8s.io/apimachinery/pkg/types",
