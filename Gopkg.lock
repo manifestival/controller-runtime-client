@@ -101,8 +101,7 @@
   version = "v1.1.9"
 
 [[projects]]
-  branch = "master"
-  digest = "1:92a636aeada7a72e468d7661c33d603e920a5db4cf5a2bdc9e441b40d96092d4"
+  digest = "1:2575736731bd3046cf6bd5a08a7d694a30a6be8b4af230470f1ad4239bb7d0c3"
   name = "github.com/manifestival/manifestival"
   packages = [
     ".",
@@ -110,7 +109,8 @@
     "sources",
   ]
   pruneopts = "UT"
-  revision = "2e7a04ddc857cd9a607478259e6e2baef1543ab9"
+  revision = "062c519a505b425bf0990e7f78e06568b2756b89"
+  version = "v0.2.0"
 
 [[projects]]
   digest = "1:33422d238f147d247752996a26574ac48dcf472976eda7f5134015f06bf16563"
@@ -158,7 +158,7 @@
   name = "golang.org/x/crypto"
   packages = ["ssh/terminal"]
   pruneopts = "UT"
-  revision = "bac4c82f69751a6dd76e702d54b3ceb88adab236"
+  revision = "0f24fbd83dfbb33be4b41327d5a857464b89e3cd"
 
 [[projects]]
   branch = "master"
