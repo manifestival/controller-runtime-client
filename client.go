@@ -24,16 +24,16 @@ type controllerRuntimeClient struct {
 // verify implementation
 var _ mf.Client = (*controllerRuntimeClient)(nil)
 
-func (c *controllerRuntimeClient) Create(obj *unstructured.Unstructured, options ...mf.ApplyOption) error {
-	return c.client.Create(context.TODO(), obj, createWith(options)...)
+func (c *controllerRuntimeClient) Create(ctx context.Context, obj *unstructured.Unstructured, options ...mf.ApplyOption) error {
+	return c.client.Create(ctx, obj, createWith(options)...)
 }
 
-func (c *controllerRuntimeClient) Update(obj *unstructured.Unstructured, options ...mf.ApplyOption) error {
-	return c.client.Update(context.TODO(), obj, updateWith(options)...)
+func (c *controllerRuntimeClient) Update(ctx context.Context, obj *unstructured.Unstructured, options ...mf.ApplyOption) error {
+	return c.client.Update(ctx, obj, updateWith(options)...)
 }
 
-func (c *controllerRuntimeClient) Delete(obj *unstructured.Unstructured, options ...mf.DeleteOption) error {
-	err := c.client.Delete(context.TODO(), obj, deleteWith(options)...)
+func (c *controllerRuntimeClient) Delete(ctx context.Context, obj *unstructured.Unstructured, options ...mf.DeleteOption) error {
+	err := c.client.Delete(ctx, obj, deleteWith(options)...)
 	opts := mf.DeleteWith(options)
 	if opts.IgnoreNotFound {
 		return client.IgnoreNotFound(err)
@@ -41,11 +41,11 @@ func (c *controllerRuntimeClient) Delete(obj *unstructured.Unstructured, options
 	return err
 }
 
-func (c *controllerRuntimeClient) Get(obj *unstructured.Unstructured) (*unstructured.Unstructured, error) {
+func (c *controllerRuntimeClient) Get(ctx context.Context, obj *unstructured.Unstructured) (*unstructured.Unstructured, error) {
 	key := client.ObjectKey{Namespace: obj.GetNamespace(), Name: obj.GetName()}
 	result := &unstructured.Unstructured{}
 	result.SetGroupVersionKind(obj.GroupVersionKind())
-	err := c.client.Get(context.TODO(), key, result)
+	err := c.client.Get(ctx, key, result)
 	return result, err
 }
 
